@@ -3,8 +3,8 @@ var pathImg,boyImg;
 var i;
 
 function preload(){
-  path = loadAnimation("path.png")
-  Runner = loadAnimation("Runner-1.png","Runner-2.png")
+  pathImg = loadImage("path.png");
+  boyImg = loadAnimation("Runner-1.png","Runner-2.png");
  
 }
 
@@ -12,21 +12,21 @@ function setup(){
   
   createCanvas(400,400);
   path = createSprite(200,200,400,400)
- path.setAnimation("path")
- path.velocityY=-10
+ path.addImage("pathway",pathImg)
+ path.velocityY=4
 path.scale=1.2;
 
 boy = createSprite(200,200,50,50)
-boy.setAnimation("running",Runner)
+boy.addAnimation("running",boyImg)
 boy.scale=0.08;
   
 //crie um limite à esquerda
 leftBoundary=createSprite(0,0,100,800);
-leftBoundary.visibility=false
+leftBoundary.visible=false
 
 //crie um limite à direita
 rightBoundary=createSprite(410,0,100,800);
-leftBoundary.visibility=false
+leftBoundary.visible=false
 }
 
 function draw() {
@@ -34,12 +34,10 @@ function draw() {
   path.velocityY = 4;
   
   boy.x=World.mouseX;
+
+  edges= createEdgeSprites(); boy.collide(edges[3]);
   
-  edges= createEdgeSprites();
-  if (boy.isTouching(edges)){
-  boy.x=200
-  boy.y=200
-  }
+  boy.collide(leftBoundary); boy.collide(rightBoundary);
   
   
   //código para redefinir o fundo
